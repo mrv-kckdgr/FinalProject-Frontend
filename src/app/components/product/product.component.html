@@ -1,4 +1,7 @@
-<table class="table">
+<div *ngIf="dataLoaded==false" class="spinner-border text-info" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
+<table *ngIf="dataLoaded==true" class="table">
 <tr>
     <th>Id</th>
     <th>Kategori</th>

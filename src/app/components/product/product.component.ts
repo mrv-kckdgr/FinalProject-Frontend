@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
-import {HttpClient} from '@angular/common/http';
 import {ProductResponseModel} from 'src/app/models/productResponseModel';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product',
@@ -13,9 +13,9 @@ export class ProductComponent implements OnInit {
   
 
   products:Product[]= [];
-  apiUrl = "https://localhost:44358/api/products/getall";
+  dataLoaded=false;
   
-  constructor(private httpClient:HttpClient) { }
+  constructor(private productService:ProductService) { }
 
   ngOnInit(): void {
     this.getProducts();
@@ -23,11 +23,13 @@ export class ProductComponent implements OnInit {
 
 
   getProducts(){
-    this.httpClient
-      .get<ProductResponseModel>(this.apiUrl)
-      .subscribe((response) => {
-          this.products=response.data
-        });
+    console.log("Api request start");
+    this.productService.getProducts().subscribe(response=>{
+      this.products=response.data
+      console.log("Api request finish");
+      this.dataLoaded=true;
+    })
+    console.log("Method bitti");
   }
 
 }
